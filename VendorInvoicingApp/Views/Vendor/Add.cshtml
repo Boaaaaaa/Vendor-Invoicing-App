@@ -1,0 +1,16 @@
+﻿<!-- This is create page-->
+@model VendorViewModel
+
+@{
+    ViewData["Title"] = "Add a new vendor";
+}
+
+<!--Those are for getting information from a user using input tag-->
+<form asp-controller="Vendor" asp-action="AddNewVendor" method="post" enctype="application/x-www-form-urlencoded">
+    <partial name="Input.cshtml" />
+
+    <!--If user click Add button, the information will be saved to databases-->
+    <button type="submit" class="btn btn-primary">Add</button>
+    <!--If user click click button, the list page will be shown-->
+    <a asp-controller="Vendor" asp-action="Vendors" class="btn btn-primary">Cancel</a>
+</form>

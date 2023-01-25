@@ -1,0 +1,44 @@
+﻿@model List<Vendor>
+
+@{
+    ViewData["Title"] = "The Vendors";
+}
+
+<div>
+    <a asp-controller="Vendor" asp-action="GetAddVendorRequest">Add a new vendor</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vendor in Model)
+            {
+                <tr>
+                    <td>@vendor.Name</td>
+                    <td>@vendor.Address1</td>
+                    <td>
+                        <a asp-controller="Vendor" asp-action="GetVendorById" asp-route-id="@vendor.VendorId">Invoices</a>
+                        <span class="mx-1">|</span>
+                        <a asp-controller="Vendor" asp-action="GetEditRequestById" asp-route-id="@vendor.VendorId">Edit</a>
+                        <span class="mx-1">|</span>
+                        <a asp-controller="Vendor" asp-action="GetDeleteRequestById" asp-route-id="@vendor.VendorId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item @ViewBag.buttonClass1"><a class="page-link" asp-controller="Vendor" asp-action="GetAllVendors" asp-route-lowerBound="A" asp-route-upperBound="E">A - E</a></li>
+        <li class="page-item @ViewBag.buttonClass2"><a class="page-link" asp-controller="Vendor" asp-action="GetAllVendors" asp-route-lowerBound="F" asp-route-upperBound="K">F - K</a></li>
+        <li class="page-item @ViewBag.buttonClass3"><a class="page-link" asp-controller="Vendor" asp-action="GetAllVendors" asp-route-lowerBound="L" asp-route-upperBound="R">L - R</a></li>
+        <li class="page-item @ViewBag.buttonClass4"><a class="page-link" asp-controller="Vendor" asp-action="GetAllVendors" asp-route-lowerBound="S" asp-route-upperBound="Z">S - Z</a></li>
+    </ul>
+</nav>

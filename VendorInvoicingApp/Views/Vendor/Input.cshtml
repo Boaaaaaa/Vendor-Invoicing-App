@@ -1,0 +1,54 @@
+﻿@model VendorViewModel
+
+<!-- placeholder for validation errs: -->
+<div class="text-danger" asp-validation-summary="All"></div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.Name"> Name:</label>
+    <input type="text" asp-for="ActiveVendor.Name" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.Address1"> Address 1:</label>
+    <input type="text" asp-for="ActiveVendor.Address1" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.Address2"> Address 2:</label>
+    <input type="datetime" asp-for="ActiveVendor.Address2" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.City"> City:</label>
+    <input type="text" asp-for="ActiveVendor.City" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.ProvinceOrState"> Province/State:</label>
+    <input type="text" asp-for="ActiveVendor.ProvinceOrState" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.ZipOrPostalCode"> Zip/postal Code:</label>
+    <input type="text" asp-for="ActiveVendor.ZipOrPostalCode" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.VendorPhone">Phone:</label>
+    <input type="text" asp-for="ActiveVendor.VendorPhone" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.VendorContactFirstName">Contact first name:</label>
+    <input type="text" asp-for="ActiveVendor.VendorContactFirstName" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.VendorContactLastName">Contact last name:</label>
+    <input type="text" asp-for="ActiveVendor.VendorContactLastName" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label asp-for="ActiveVendor.VendorContactEmail">Contact email:</label>
+    <input type="text" asp-for="ActiveVendor.VendorContactEmail" class="form-control" />
+</div>

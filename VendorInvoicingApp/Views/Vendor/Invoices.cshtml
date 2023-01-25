@@ -1,0 +1,132 @@
+﻿<!--This is invoices page-->
+@model InvoiceViewModel
+
+@{
+    ViewData["Title"] = "The invoice of the vendor";
+    double? amount = 0;
+}
+
+<!--Header-->
+<div class="row">
+    <div class="col-sm-9">
+        <h3>Invoices for @Model.ActiveVendor.Name</h3>
+    </div>
+    <div class="col-sm-3">
+        <h5 style="text-align: right"><a asp-controller="Vendor" asp-action="Vendors">Return to A-E Vendors</a></h5>
+    </div>
+</div>
+
+<div class="row">
+    <!--Invoices-->
+    <div class="col-sm-7">
+        <h5 class="text-muted">Address: @Model.ActiveVendor.Address1</h5>
+        <br />
+        <h6>Invocies</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Invoice #</th>
+                    <th>Due date</th>
+                    <th>Amount paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var invoices in Model.ActiveVendor.Invoices)
+                {
+                    string highlight = null;
+                    if (Model.ActiveInvoice.InvoiceId == invoices.InvoiceId)
+                        highlight = ViewBag.highlight;
+                    <tr class="@highlight">
+                        <td><a asp-controller="Vendor" asp-action="GetInvoiceById" asp-route-vendorid="@Model.ActiveVendor.VendorId" asp-route-invoiceid="@invoices.InvoiceId">@invoices.InvoiceId</a></td>
+                        <td>@invoices.InvoiceDueDate?.ToString("MM/dd/yyyy")</td>
+                        <td>@invoices.PaymentTotal</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <form asp-controller="Vendor" asp-action="AddInvoiceToVendorById" asp-route-vendorid="@Model.ActiveVendor.VendorId" asp-route-invoiceid="@Model.ActiveInvoice.InvoiceId">
+            <div class="row">
+                <div class="col-sm-1">
+                    <label asp-for="NewInvoice.InvoiceDate">Date:</label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="date" asp-for="NewInvoice.InvoiceDate" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1">
+                    <label asp-for="NewInvoice.PaymentTermsId">Terms:</label>
+                </div>
+                <div class="col-sm-4">
+                    <select asp-for="NewInvoice.PaymentTermsId" class="form-control">
+                        <option value="">Please select a term..</option>
+                        @foreach (PaymentTerms p in Model.paymentTerms)
+                        {
+                            <option value="@p.PaymentTermsId">@p.Description</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary">Add invoice</button>
+            </div>
+        </form>
+    </div>
+
+    <!--LineItems-->
+    <div class="col-sm-5" style="">
+        <h5 class="text-muted" style="text-align: right">Terms:@{
+                int days = 0;
+                if (Model.ActiveInvoice.PaymentTermsId == 1) days += 10;
+                else if (Model.ActiveInvoice.PaymentTermsId == 2) days += 20;
+                else if (Model.ActiveInvoice.PaymentTermsId == 3) days += 30;
+                else if (Model.ActiveInvoice.PaymentTermsId == 4) days += 60;
+                else if (Model.ActiveInvoice.PaymentTermsId == 5) days += 90;
+            }@days</h5>
+        <br />
+        <h6>Line itmes for invoice #@Model.ActiveInvoice.InvoiceId</h6>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lineitems in Model.ActiveInvoice.InvoiceLineItems)
+                {
+                    <tr>
+                        <td>@lineitems.Description</td>
+                        <td>@lineitems.Amount</td>
+                    </tr>
+                    amount = amount + lineitems.Amount;
+                }
+            </tbody>
+        </table>
+        <h6>Total: $@amount</h6>
+
+        <form asp-controller="Vendor" asp-action="AddLineItemToInvoiceById" asp-route-vendorid="@Model.ActiveVendor.VendorId" asp-route-invoiceid="@Model.ActiveInvoice.InvoiceId">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="NewLineItem.Description">Description:</label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" asp-for="NewLineItem.Description" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="NewLineItem.Amount">Amount:</label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" asp-for="NewLineItem.Amount" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary">Add line item</button>
+            </div>
+        </form>
+    </div>
+</div>
